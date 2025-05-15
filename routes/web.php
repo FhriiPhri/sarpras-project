@@ -59,3 +59,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/peminjaman-sarana/{id}/return', [PeminjamanController::class, 'return'])->name('peminjaman-sarana.return');
     Route::get('/peminjaman-sarana/report', [PeminjamanController::class, 'report'])->name('peminjaman-sarana.report');
 });
+
+Route::get('users-export/', [UsersController::class, 'export'])->name('export');
