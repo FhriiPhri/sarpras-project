@@ -43,15 +43,7 @@
         <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex flex-wrap items-center justify-between gap-4">
             <div>
                 <h3 class="text-lg font-semibold text-gray-800">Daftar Pengguna Sistem</h3>
-                <p class="text-xs text-gray-500">Total {{ $users->count() }} pengguna terdaftar</p>
-            </div>
-            <div class="flex items-center gap-3">
-                <div class="hidden sm:flex items-center gap-2 text-sm">
-                    <span class="w-3 h-3 rounded-full bg-green-400"></span>
-                    <span>User</span>
-                    <span class="w-3 h-3 rounded-full bg-purple-400 ml-2"></span>
-                    <span>Admin</span>
-                </div>
+                <p class="text-xs text-gray-500">Total {{ $users->where('role', 'user')->count() }} pengguna terdaftar</p>
             </div>
         </div>
 
@@ -62,13 +54,13 @@
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pengguna</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">Kontak</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">Email</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider pr-8">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($users as $user)
+                    @foreach($users->where('role', 'user') as $user)
                     <tr class="hover:bg-gray-50 transition-colors duration-150 group">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -115,11 +107,6 @@
                                         <i class="fas fa-trash-alt fa-sm"></i>
                                     </button>
                                 </form>
-                                <a href="#" 
-                                   class="text-gray-600 hover:text-gray-900 transition-colors duration-200 p-2 rounded-full hover:bg-gray-100"
-                                   title="Detail">
-                                    <i class="fas fa-ellipsis-h fa-sm"></i>
-                                </a>
                             </div>
                         </td>
                     </tr>

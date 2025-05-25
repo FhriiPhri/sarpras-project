@@ -55,19 +55,18 @@
 </head>
 <body class="bg-gray-100 text-gray-800 flex h-screen overflow-hidden">
 
-    <!-- Sidebar -->
+    <!-- Sidebar - Hanya ditampilkan jika user sudah login -->
+    @auth
     <aside class="sidebar bg-white shadow-md w-64 flex-shrink-0 hidden md:flex">
         <div class="sidebar-content">
             <div class="p-4 border-b border-gray-200">
                 <a href="/" class="text-xl font-bold text-blue-600 flex items-center">
-                    <i class="fas fa-boxes mr-2"></i>
                     <span>SarprasTBSystem</span>
                 </a>
             </div>
             
             <nav class="p-4">
                 <ul class="space-y-2">
-                    @auth
                     <li>
                         <a href="{{ route('dashboard') }}" class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700">
                             <i class="fas fa-tachometer-alt mr-3 text-gray-500"></i>
@@ -98,17 +97,23 @@
                             <span>Peminjaman</span>
                         </a>
                     </li>
-                    @endauth
                 </ul>
             </nav>
         </div>
         
-        @auth
         <div class="sidebar-profile">
             <div class="flex items-center justify-between">
                 <a href="{{ route('profile') }}" class="flex items-center flex-1">
-                    <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm mr-3">
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    <div class="relative w-20 h-20 sm:w-10 sm:h-10 mr-3">
+                        @if(Auth::user()->profile_picture)
+                            <img src="{{ asset('storage/profile_pictures/' . Auth::user()->profile_picture) }}"
+                                alt="Profile Picture"
+                                class="w-full h-full rounded-full object-cover shadow-md">
+                        @else
+                            <div class="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center text-lg sm:text-xl font-bold shadow-md">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                        @endif
                     </div>
                     <div class="truncate">
                         <p class="font-medium text-gray-800 truncate">{{ Auth::user()->name }}</p>
@@ -123,12 +128,13 @@
                 </form>
             </div>
         </div>
-        @endauth
     </aside>
+    @endauth
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- Mobile Header -->
+        <!-- Mobile Header - Hanya ditampilkan jika user sudah login -->
+        @auth
         <header class="bg-white shadow sticky top-0 z-40 md:hidden">
             <div class="px-4 py-3 flex justify-between items-center">
                 <a href="/" class="text-xl font-bold text-blue-600">
@@ -145,43 +151,42 @@
             <!-- Mobile Navigation -->
             <div id="mobile-menu" class="mobile-menu bg-white">
                 <div class="px-2 pt-2 pb-3 space-y-1">
-                    @auth
-                        <div class="flex items-center px-4 py-3 border-b border-gray-200 mb-2">
-                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm mr-3">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
-                                <p class="text-xs text-gray-500">{{ Auth::user()->role }}</p>
-                            </div>
+                    <div class="flex items-center px-4 py-3 border-b border-gray-200 mb-2">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm mr-3">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                         </div>
-                        <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
-                            <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
-                        </a>
-                        <a href="{{ route('users.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
-                            <i class="fas fa-users mr-3"></i> Users
-                        </a>
-                        <a href="{{ route('kategoris.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
-                            <i class="fas fa-tags mr-3"></i> Kategori
-                        </a>
-                        <a href="{{ route('barangs.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
-                            <i class="fas fa-box-open mr-3"></i> Barang
-                        </a>
-                        <a href="{{ route('peminjaman-sarana.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
-                            <i class="fas fa-exchange-alt mr-3"></i> Peminjaman
-                        </a>
-                        <div class="border-t border-gray-200 mt-2 pt-2">
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-md">
-                                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
-                                </button>
-                            </form>
+                        <div>
+                            <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500">{{ Auth::user()->role }}</p>
                         </div>
-                    @endauth
+                    </div>
+                    <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
+                        <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                    </a>
+                    <a href="{{ route('users.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
+                        <i class="fas fa-users mr-3"></i> Users
+                    </a>
+                    <a href="{{ route('kategoris.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
+                        <i class="fas fa-tags mr-3"></i> Kategori
+                    </a>
+                    <a href="{{ route('barangs.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
+                        <i class="fas fa-box-open mr-3"></i> Barang
+                    </a>
+                    <a href="{{ route('peminjaman-sarana.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-md">
+                        <i class="fas fa-exchange-alt mr-3"></i> Peminjaman
+                    </a>
+                    <div class="border-t border-gray-200 mt-2 pt-2">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-md">
+                                <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </header>
+        @endauth
 
         <!-- Content Area -->
         <main class="content-area flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
@@ -189,8 +194,9 @@
         </main>
     </div>
 
+    @auth
     <script>
-        // Mobile menu toggle
+        // Mobile menu toggle - Hanya dijalankan jika user sudah login
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('open');
@@ -209,6 +215,7 @@
             });
         });
     </script>
+    @endauth
     
     @stack('scripts')
 </body>

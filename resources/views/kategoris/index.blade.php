@@ -95,11 +95,6 @@
                                         <i class="fas fa-trash-alt fa-sm"></i>
                                     </button>
                                 </form>
-                                <a href="#" 
-                                   class="text-gray-600 hover:text-gray-900 transition-colors duration-200 p-2 rounded-full hover:bg-gray-100"
-                                   title="Detail">
-                                    <i class="fas fa-ellipsis-h fa-sm"></i>
-                                </a>
                             </div>
                         </td>
                     </tr>

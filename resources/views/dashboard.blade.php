@@ -119,7 +119,7 @@
                             <p class="text-sm text-gray-500">Bergabung Pada</p>
                             <p class="font-medium">
                                 {{ Auth::user()->created_at->format('d F Y') }} 
-                                <span class="text-gray-500">pukul {{ Auth::user()->created_at->format('H:i') }}</span>
+                                <span class="text-gray-500"> | {{ Auth::user()->created_at->format('H:i') }} WIB</span>
                             </p>
                         </div>
                     </div>
